@@ -1,36 +1,29 @@
 <div class="row">
 	<div class="col-md-6">
 		<h2 class="text-center mb-3">Dispositivos</h2>
-
 		<div class="list-items">
 			<table class="table">
 			  <thead>
 			    <tr>
-			      <th scope="col">Token</th>
+			      <th scope="col">ID</th>
 			      <th scope="col">Nome</th>
 			      <th scope="col">Editar</th>
 			      <th scope="col">Excluir</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>Nome dispositivo</td>
-			      <td><a href="<?= base_url('device/edit?id=0'); ?>" class="btn btn-primary">Editar</a></td>
-			      <td><a href="<?= base_url('device/delete?id=0'); ?>" class="btn btn-danger">Excluir</a></td>
-			    </tr>
-				<tr>
-			      <th scope="row">1</th>
-			      <td>Nome dispositivo</td>
-			      <td><a href="<?= base_url('device/edit?id=0'); ?>" class="btn btn-primary">Editar</a></td>
-			      <td><a href="<?= base_url('device/delete?id=0'); ?>" class="btn btn-danger">Excluir</a></td>
-			    </tr>
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>Nome dispositivo</td>
-			      <td><a href="<?= base_url('device/edit?id=0'); ?>" class="btn btn-primary">Editar</a></td>
-			      <td><a href="<?= base_url('device/delete?id=0'); ?>" class="btn btn-danger">Excluir</a></td>
-			    </tr>
+			  	
+				<?php foreach ($devices as $d):
+					$id = json_decode(json_encode($d["_id"]), True);
+					?>
+					<tr>
+				      <th scope="row"><?= $id['$id'] ?></th>
+				      <td><?= $d['device name'] ?></td>
+				      <td><a href="<?= base_url().'devices/edit/'.$id['$id']; ?>" class="btn btn-primary">Editar</a></td>
+				      <td><a href="<?= base_url().'devices/delete/'.$id['$id']; ?>" class="btn btn-danger">Excluir</a></td>
+				    </tr>
+				<?php endforeach; ?>
+
 			
 			  </tbody>
 			</table>

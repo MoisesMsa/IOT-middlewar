@@ -3,22 +3,22 @@
 class Device_model extends CI_Model {
 
 	public function get_all(){
-		return $this->mongo_db->select(['name'])->get('devices');
+		return $this->mongo_db->select('*')->get('devices');
 	}
 
+	public function get($id){
+		return $this->mongo_db->find_one('devices', ['_id', $id]);
+	}
 
 	public function add($params){
-		$this->mongodb->insert($params);
-		// return $msg;
+		return $this->mongo_db->insert('devices', $params);
 	}
 
 	public function update($id, $params){
-		$this->mongodb->update($id, $params);
-		// return $msg;
+		return $this->mongo_db->set($params)->update('devices', ['_id', $id]);
 	}
 
 	public function delete($id){
-		$this->mongodb->delete($id);
-		// return $msg
+		$this->mongo_db->delete('devices', ['_id', $id]);
 	}
 }

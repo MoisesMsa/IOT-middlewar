@@ -24,11 +24,12 @@ class Manager extends CI_Controller {
     {
         parent::__construct();
 		$this->load->helper('url');
+		$this->load->model('Device_model', 'device');
     } 
 
 	public function home()
 	{
-		$this->mongo_db->select();
+		$data['devices'] = $this->device->get_all();
 		$data['_view'] = "home";
 		$this->load->view('main', $data);
 	}
