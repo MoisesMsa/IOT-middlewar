@@ -1,6 +1,5 @@
 <?php
 
-   
 
 require APPPATH . 'libraries/REST_Controller.php';
 
@@ -24,7 +23,6 @@ class Item extends REST_Controller {
 
        parent::__construct();
 
-       $this->load->database();
 
     }
 
@@ -46,15 +44,14 @@ class Item extends REST_Controller {
 
         if(!empty($id)){
 
-            $data = $this->db->get_where("items", ['id' => $id])->row_array();
+            $data = $this->mongo_db->get_where("items", ['id' => $id])->row_array();
 
         }else{
 
-            $data = $this->db->get("items")->result();
+            $data = $this->mongo_db->get("items");
 
         }
 
-     
 
         $this->response($data, REST_Controller::HTTP_OK);
 
@@ -78,7 +75,7 @@ class Item extends REST_Controller {
 
         $input = $this->input->post();
 
-        $this->db->insert('items',$input);
+        $this->mongo_db->insert('items',$input);
 
      
 
@@ -104,7 +101,7 @@ class Item extends REST_Controller {
 
         $input = $this->put();
 
-        $this->db->update('items', $input, array('id'=>$id));
+        $this->mongo_db->update('items', $input, array('id'=>$id));
 
      
 
@@ -128,7 +125,7 @@ class Item extends REST_Controller {
 
     {
 
-        $this->db->delete('items', array('id'=>$id));
+        $this->mongo_db->delete('items', array('id'=>$id));
 
        
 
