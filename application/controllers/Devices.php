@@ -6,6 +6,7 @@ class Devices extends CI_Controller{
     function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
         $this->load->model('Device_model', 'device');
         $this->load->helper('url');
     } 
@@ -21,30 +22,49 @@ class Devices extends CI_Controller{
 
     function add(){
 
-        $params['device name'] = $this->input->post('name');
-        $params['channels'] = $this->input->post('channels');
-        
-        if(($params['device name'] && $params['channels']) != NULL){
+        $this->form_validation->set_rules("name", "Nome" ,"required");
+        $this->form_validation->set_rules("channels[]", "Canais" ,"required");
+
+        if($this->form_validation->run()){
+           
+            $params = array(
+                'device name' => $this->input->post('name'),
+                'channels' => $this->input->post('channels')
+            );
+
             $this->device->add($params);
             redirect('/manager/home', 'refresh');
+
+        }else{
+
+            $data['msg'] = 'Invalid inputs';
+            $data['_view'] = 'devices_form';
+            $this->load->view('main',$data);
+
         }
-        
-        $data['_view'] = 'devices_form';
-        $this->load->view('main',$data);
-      
     }
 
     function edit($id){
         
+        $this->form_validation->set_rules("name", "Nome" ,"required");
+        $this->form_validation->set_rules("channels[]", "Canais" ,"required");
+
+        if($this->form_validation->run()){
+            $params = array(
+                'device name' => $this->input->post('name'),
+                'channels' => $this->input->post('channels')
+            );
         
-        $params['device name'] = $this->input->post('name');
-        $params['channels'] = $this->input->post('channels');
+            $this->device->update($id, $params);
+            redirect('/manager/home', 'refresh');
+
+        }else{
+            $data['msg'] = 'Invalid input';
+            $data['_view'] = 'devices_form';
+            $data['device'] =  $this->device->get($id);
+            $this->load->view('main',$data);
+        }
         
-        $data['_view'] = 'devices_form';
-        $data['device'] =  $this->device->get($id);
-      
-        $this->load->view('main',$data);
-        $this->device->update($id, $params);
     }
 
     function delete($id){
