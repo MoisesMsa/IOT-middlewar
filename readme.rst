@@ -1,12 +1,6 @@
-db.createUser(
-  {
-    user: "iot",
-    pwd: "iot@2019",
-    roles: [
-       { role: "read", db: "iot" },
-    ]
-  }
-)
+##IOT middlware
+
+
 
 
 //ajeitou problema de permissão dos arquivos
