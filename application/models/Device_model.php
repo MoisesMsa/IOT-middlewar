@@ -7,7 +7,7 @@ class Device_model extends CI_Model {
 	}
 
 	public function get($id){
-		return $this->mongo_db->find_one('devices', ['_id', $id]);
+		return $this->mongo_db->select('*')->where(array('_id' => new MongoDB\BSON\ObjectId($id)))->get('devices');
 	}
 
 	public function add($params){
@@ -15,10 +15,10 @@ class Device_model extends CI_Model {
 	}
 
 	public function update($id, $params){
-		return $this->mongo_db->set($params)->update('devices', ['_id', $id]);
+		return $this->mongo_db->set($params)->update('devices', ['_id', new MongoDB\BSON\ObjectId($id)]);
 	}
 
 	public function delete($id){
-		$this->mongo_db->delete('devices', ['_id', $id]);
+		$this->mongo_db->delete('devices', ['_id', new MongoDB\BSON\ObjectId($id)]);
 	}
 }
