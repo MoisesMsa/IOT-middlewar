@@ -107,13 +107,10 @@ class Devices extends CI_Controller{
     function records($id){
         
         $data['records'] = $this->device->get_records($id);
-
-        $records = $data['records'][0]["channels"]; 
             
-        foreach ($records as $key => $value) 
-        $records[$key]  = json_decode(json_encode($value), True);
+        foreach ($data['records'] as $key => $value) 
+            $data['records'][$key]  = json_decode(json_encode($value), True);
         
-        $data['records'][0]['channels'] = $records;
       
         $data['id'] = $id;
         

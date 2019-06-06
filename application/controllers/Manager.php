@@ -25,6 +25,8 @@ class Manager extends CI_Controller {
         parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('Device_model', 'device');
+		$this->load->library('form_validation');
+		$this->load->model('User_model', 'user');
     } 
 
 	public function home()
@@ -36,23 +38,32 @@ class Manager extends CI_Controller {
 
 	public function login()
 	{
-		$user_logged_in = TRUE;
+		$this->form_validation->set_rules("user", "Nome" ,"required");
+        $this->form_validation->set_rules("password", "Senha" ,"required");
+        
+        $user = NULL;
+    
+    	$name = $this->input->post('user');
+    	$pass = $this->input->post('password');
+
+        if($this->form_validation->run()){
+        	$user = $this->user->get($name);
+        }
+
+        if($user[0]['name'] == $name && $user[0]['password'] == $pass ){	
+		    redirect('/manager/home', 'refresh');
+		}else{
+			$data['_view'] = "login";
+			$data['msg'] = "Invalid User";
+			// $data['login'] = true;
+			$this->load->view('main', $data);
+		}
 		
 
-		// if ($user_logged_in === FALSE)
-		// {
-		//     redirect('/manager/login', 'refresh');
-		// }else{
-		    redirect('/manager/home', 'refresh');
-		// }
-
-		$data['_view'] = "login";
-		$this->load->view('main', $data);
 	}
 
-	public function logut()
+	public function logout()
 	{
-		$data['_view'] = "login";
-		$this->load->view('main', $data);
+		redirect('/manager/login', 'refresh');
 	}
 }

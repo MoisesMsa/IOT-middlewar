@@ -23,6 +23,10 @@ class Device_model extends CI_Model {
 	}
 
 	public function get_records($id){
-		return $this->mongo_db->select(array('channels'))->where(array('_id' => new MongoDB\BSON\ObjectId($id)))->get('devices');
+	
+		$data_channels = $this->mongo_db->select(array('channels'))->where(array('_id'=>new MongoDB\BSON\ObjectId($id)))->get('devices');
+
+
+		return $data_channels;
 	}
 }

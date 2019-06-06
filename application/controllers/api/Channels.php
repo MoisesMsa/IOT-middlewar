@@ -76,22 +76,24 @@ class Channels extends REST_Controller {
             
             for ($i=0; $i < 3; $i++) { 
                 $ch = 'ch'.$i;
-                $inputs[$i] = ['value' => $this->input->post($ch), 'time' => $time];
+                // $inputs[$i] = ['value' => $this->input->post($ch), 'time' => $time];
+                $inputs[$i] = ['value' => $this->input->post($ch), 'time' => date("Y-m-d H:i:s")];
 
             }
             
             $id = $this->input->post('id');
             
-            $data_channels = $this->mongo_db->select(array('channels'))->where(array('_id'=>new MongoDB\BSON\ObjectId($id)))->get('devices');
+            $data_channels = $this->mongo_db->select(array('channels'))->where(array('_id'=> new MongoDB\BSON\ObjectId($id)))->get('devices');
 
             $data_channels = $data_channels[0]['channels'];
 
             $i = 0;
+         
             foreach ($data_channels as $key => $value) {
                 array_push($data_channels[$key]->records, $inputs[$i]); 
                 ++$i;
             }
-
+        
             $this->mongo_db->set(array('channels'=>$data_channels))->where(array('_id'=>new MongoDB\BSON\ObjectId($id)))->update('devices');
 
             $data = "Inserted with success";

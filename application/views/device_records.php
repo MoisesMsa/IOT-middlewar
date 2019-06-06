@@ -18,26 +18,19 @@
 					<thead>
 						<tr>
 							<th>id</th>
-							<th>Timestamp</th>
 							<th>Valor</th>
+							<th>Time</th>
 						</tr>
 					</thead>
 					<tbody>
+					<?php $record_values = $records[0]['channels'][$i]['records']; ?>
+					<?php foreach ($record_values as $r): ?>
 						<tr>
 							<td><?= $id ?></td>
-							<td>00/00/0000 00:00:00</td>
-							<td>0000</td>
+							<td><?= $r['value']; ?></td>
+							<td><?= $r['time'] ?></td>
 						</tr>
-						<tr>
-							<td><?= $id ?></td>
-							<td>00/00/0000 00:00:00</td>
-							<td>0000</td>
-						</tr>
-						<tr>
-							<td><?= $id ?></td>
-							<td>00/00/0000 00:00:00</td>
-							<td>0000</td>
-						</tr>
+					<?php endforeach; ?>
 					</tbody>
 				</table>	
 
