@@ -5,7 +5,7 @@ require APPPATH . 'libraries/REST_Controller.php';
 
      
 
-class Item extends REST_Controller {
+class Devices extends REST_Controller {
 
     
 
@@ -22,7 +22,6 @@ class Item extends REST_Controller {
     public function __construct() {
 
        parent::__construct();
-
 
     }
 
@@ -44,11 +43,11 @@ class Item extends REST_Controller {
 
         if(!empty($id)){
 
-            $data = $this->mongo_db->get_where("items", ['id' => $id])->row_array();
+            $data = $this->mongo_db->get_where("devices", ['id' => $id])->row_array();
 
         }else{
 
-            $data = $this->mongo_db->get("items");
+            $data = $this->mongo_db->get("devices");
 
         }
 
@@ -56,6 +55,10 @@ class Item extends REST_Controller {
         $this->response($data, REST_Controller::HTTP_OK);
 
 	}
+
+    // public function get_channels($device_id){
+
+    // }
 
       
 
@@ -75,7 +78,7 @@ class Item extends REST_Controller {
 
         $input = $this->input->post();
 
-        $this->mongo_db->insert('items',$input);
+        $this->mongo_db->insert('devices',$input);
 
      
 
@@ -101,7 +104,7 @@ class Item extends REST_Controller {
 
         $input = $this->put();
 
-        $this->mongo_db->update('items', $input, array('id'=>$id));
+        $this->mongo_db->update('devices', $input, array('id'=>$id));
 
      
 
@@ -125,7 +128,7 @@ class Item extends REST_Controller {
 
     {
 
-        $this->mongo_db->delete('items', array('id'=>$id));
+        $this->mongo_db->delete('devices', array('id'=>$id));
 
        
 

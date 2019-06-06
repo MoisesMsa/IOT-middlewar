@@ -54,7 +54,7 @@ class Devices extends CI_Controller{
                 'device name' => $this->input->post('name'),
                 'channels' => $this->input->post('channels')
             );
-        
+            
             $this->device->update($id, $params);
             redirect('/manager/home', 'refresh');
 
@@ -62,6 +62,8 @@ class Devices extends CI_Controller{
             $data['msg'] = 'Invalid input';
             $data['_view'] = 'devices_form';
             $data['device'] =  $this->device->get($id);
+            var_dump($id);
+            var_dump($device);
             $this->load->view('main',$data);
         }
         
