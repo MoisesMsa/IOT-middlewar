@@ -69,25 +69,27 @@ class Devices extends CI_Controller{
                 $channels[$key] = ['num' => $i, 'name' => $value, 'records' => array()];
                 ++$i;
             }
+           
             $params = array(
                 'device name' => $this->input->post('name'),
                 'channels' => $channels
             );
-            var_dump($id);
-            // die();
+
             $this->device->update($id, $params);
             redirect('/manager/home', 'refresh');
 
         }else{
+
+            $data['device'] =  $this->device->get($id);
+        
+            $channels = $data['device'][0]["channels"]; 
+            
+            foreach ($channels as $key => $value) 
+                $channels[$key]  = json_decode(json_encode($value), True);
+            
             
             $data['msg'] = 'Invalid input';
             $data['_view'] = 'devices_form';
-            $data['device'] =  $this->device->get($id);
-            $channels = $data['device'][0]["channels"]; 
-            
-            foreach ($channels as $key => $value) {
-                $channels[$key]  = json_decode(json_encode($value), True);
-            }
 
             $data['device'][0]['channels'] = $channels;
      
@@ -101,4 +103,22 @@ class Devices extends CI_Controller{
         redirect('/manager/home', 'refresh');
     }
 
+
+    function records($id){
+        
+        $data['records'] = $this->device->get_records($id);
+
+        $records = $data['records'][0]["channels"]; 
+            
+        foreach ($records as $key => $value) 
+        $records[$key]  = json_decode(json_encode($value), True);
+        
+        $data['records'][0]['channels'] = $records;
+      
+        $data['id'] = $id;
+        
+        $data['_view'] = 'device_records';
+        
+        $this->load->view('main',$data);
+    }
 }

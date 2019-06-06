@@ -21,4 +21,8 @@ class Device_model extends CI_Model {
 	public function delete($id){
 		$this->mongo_db->delete('devices', ['_id', new MongoDB\BSON\ObjectId($id)]);
 	}
+
+	public function get_records($id){
+		return $this->mongo_db->select(array('channels'))->where(array('_id' => new MongoDB\BSON\ObjectId($id)))->get('devices');
+	}
 }
