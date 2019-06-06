@@ -15,7 +15,7 @@ class Device_model extends CI_Model {
 	}
 
 	public function update($id, $params){
-		return $this->mongo_db->set($params)->update('devices', ['_id', new MongoDB\BSON\ObjectId($id)]);
+		return $this->mongo_db->set($params)->where(array('_id' => new MongoDB\BSON\ObjectId($id)))->update('devices');
 	}
 
 	public function delete($id){

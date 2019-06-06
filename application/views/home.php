@@ -7,6 +7,7 @@
 			    <tr>
 			      <th scope="col">ID</th>
 			      <th scope="col">Nome</th>
+			      <th scope="col">Dados</th>
 			      <th scope="col">Editar</th>
 			      <th scope="col">Excluir</th>
 			    </tr>
@@ -19,6 +20,7 @@
 					<tr>
 				      <th scope="row"><?= $id['$id'] ?></th>
 				      <td><?= $d['device name'] ?></td>
+				      <td><a href="<?= base_url().'devices/records/'.$id['$id']; ?>" class="btn btn-success">Dados</a></td>
 				      <td><a href="<?= base_url().'devices/edit/'.$id['$id']; ?>" class="btn btn-primary">Editar</a></td>
 				      <td><a href="<?= base_url().'devices/delete/'.$id['$id']; ?>" class="btn btn-danger">Excluir</a></td>
 				    </tr>

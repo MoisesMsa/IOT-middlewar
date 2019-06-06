@@ -26,11 +26,21 @@ class Devices extends CI_Controller{
         $this->form_validation->set_rules("channels[]", "Canais" ,"required");
 
         if($this->form_validation->run()){
-           
+            
+            $channels = $this->input->post('channels');
+         
+            $i = 0;
+         
+            foreach ($channels as $key => $value) {
+                $channels[$key] = ['num' => $i, 'name' => $value, 'records' => array()];
+                ++$i;
+            }
+
             $params = array(
                 'device name' => $this->input->post('name'),
-                'channels' => $this->input->post('channels')
+                'channels' => $channels
             );
+
 
             $this->device->add($params);
             redirect('/manager/home', 'refresh');
@@ -50,18 +60,37 @@ class Devices extends CI_Controller{
         $this->form_validation->set_rules("channels[]", "Canais" ,"required");
 
         if($this->form_validation->run()){
+            
+            $channels = $this->input->post('channels[]');
+         
+            $i = 0;
+         
+            foreach ($channels as $key => $value) {
+                $channels[$key] = ['num' => $i, 'name' => $value, 'records' => array()];
+                ++$i;
+            }
             $params = array(
                 'device name' => $this->input->post('name'),
-                'channels' => $this->input->post('channels')
+                'channels' => $channels
             );
-        
+            var_dump($id);
+            // die();
             $this->device->update($id, $params);
             redirect('/manager/home', 'refresh');
 
         }else{
+            
             $data['msg'] = 'Invalid input';
             $data['_view'] = 'devices_form';
             $data['device'] =  $this->device->get($id);
+            $channels = $data['device'][0]["channels"]; 
+            
+            foreach ($channels as $key => $value) {
+                $channels[$key]  = json_decode(json_encode($value), True);
+            }
+
+            $data['device'][0]['channels'] = $channels;
+     
             $this->load->view('main',$data);
         }
         
