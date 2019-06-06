@@ -1,0 +1,33 @@
+
+import time
+import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
+import json
+
+Broker = "127.0.0.1"
+
+pub_topic = "teste"       # send messages to this topic
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe(sub_topic)
+
+# when receiving a mqtt message do this;
+
+def on_message(client, userdata, msg):
+    message = str(msg.payload)
+    print(msg.topic+" "+message)
+    display_sensehat(message)
+
+def on_publish(mosq, obj, mid):
+    print("mid: " + str(mid))
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.connect(Broker, 1883, 60)
+client.loop_start()
+
+while True:
+    sensor_data = json.dumps({"device":"313131", "sensor":1, "value":23})
+    client.publish(pub_topic, sensor_data)
+    time.sleep(1*1)

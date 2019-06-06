@@ -68,7 +68,7 @@ class Channels extends REST_Controller {
             $data = "No valid input";
         }else{
             
-            //checar se existe id no banco
+            // checar se existe id no banco
             
             $inputs = array();
             
@@ -79,19 +79,24 @@ class Channels extends REST_Controller {
                 $inputs[$i] = ['value' => $this->input->post($ch), 'time' => $time];
 
             }
-
-
-            $data = "successfully inserted";
-        }
-     
-        for ($i=0; $i < count($inputs); $i++) { 
             
-            $this->mongo_db->insert('devices[channels][$i][records]', $inputs[$i])->where(array('_id'->inputs['id']))->update('devices');
+            $id = $this->input->post('id');
+            
+            $data_channels = $this->mongo_db->select(array('channels'))->where(array('_id'=>new MongoDB\BSON\ObjectId($id)))->get('devices');
+
+            $data_channels = $data_channels[0]['channels'];
+
+            $i = 0;
+            foreach ($data_channels as $key => $value) {
+                array_push($data_channels[$key]->records, $inputs[$i]); 
+                ++$i;
+            }
+
+            $this->mongo_db->set(array('channels'=>$data_channels))->where(array('_id'=>new MongoDB\BSON\ObjectId($id)))->update('devices');
+
+            $data = "Inserted with success";
         }
 
-     
-
-        // $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
         $this->response($data, REST_Controller::HTTP_OK);
 
     } 
