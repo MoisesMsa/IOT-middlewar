@@ -63,14 +63,36 @@ class Channels extends REST_Controller {
     public function index_post()
 
     {
+      
+        if(!$this->input->post('id')){
+            $data = "No valid input";
+        }else{
+            
+            //checar se existe id no banco
+            
+            $inputs = array();
+            
+            $time = $this->input->post('time');
+            
+            for ($i=0; $i < 3; $i++) { 
+                $ch = 'ch'.$i;
+                $inputs[$i] = ['value' => $this->input->post($ch), 'time' => $time];
 
-        $input = $this->input->post();
+            }
 
-        $this->mongo_db->insert('devices',$input);
+
+            $data = "successfully inserted";
+        }
+     
+        for ($i=0; $i < count($inputs); $i++) { 
+            
+            $this->mongo_db->insert('devices[channels][$i][records]', $inputs[$i])->where(array('_id'->inputs['id']))->update('devices');
+        }
 
      
 
-        $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+        // $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+        $this->response($data, REST_Controller::HTTP_OK);
 
     } 
 

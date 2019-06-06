@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-8">
 		<h2 class="text-center mb-3">Dispositivos</h2>
 		<div class="list-items">
 			<table class="table">
@@ -32,7 +32,7 @@
 			<a href="<?= base_url('devices/add'); ?>" class="btn btn-info float-right mt-5">Adicionar Dispositivo</a>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-4">
 		<h2 class="text-center mb-3">Monitoramento</h2>
 		<canvas></canvas>
 	</div>
