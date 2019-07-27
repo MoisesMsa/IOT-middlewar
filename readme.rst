@@ -1,5 +1,5 @@
 ##IOT middlware
-
+A simple middleware to manage IOT devices with mongoDB and php.
 
 
 
